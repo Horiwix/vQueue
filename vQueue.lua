@@ -8,6 +8,7 @@ local realHostedCategory = ""
 local playersQueued = {}
 local chatQueue = {}
 local groups = {}
+local notifyForDungeon = ""
 
 local vQueueFrame = {}
 local catListButtons = {}
@@ -694,6 +695,56 @@ function vQueue_OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, a
 			vQueueFrame.hostlistRoleText:SetText("")
 		end
 		
+-- Sven Button
+
+		vQueueFrame.watchListButton = vQueue_newButton(vQueueFrame.hostlistTopSection, 10)
+		vQueueFrame.watchListButton:SetPoint("BOTTOMLEFT", vQueueFrame.hostlistTopSection, "BOTTOMLEFT", 3, 5)
+		vQueueFrame.watchListButton:SetText("Notify about groups")
+		vQueueFrame.watchListButton:SetWidth(vQueueFrame.watchListButton:GetTextWidth()+30)
+		vQueueFrame.watchListButton:SetScript("OnClick", function()
+			if not string.find(notifyForDungeon,selectedQuery) then
+			titleDung = selectedQuery
+				notifyForDungeon = notifyForDungeon == "" and titleDung or notifyForDungeon .. "/" .. titleDung
+			vQueueFrame.watchListButton:SetText("Notified for " .. notifyForDungeon)
+				vQueueFrame.watchListButton:SetWidth(vQueueFrame.watchListButton:GetTextWidth()+30)
+			vQueueFrame.clearNotifyButton:Show()
+			end
+		end)
+
+		vQueueFrame.clearNotifyButton = vQueue_newButton(vQueueFrame.hostlistTopSection, 10)
+		vQueueFrame.clearNotifyButton:SetPoint("BOTTOMLEFT", vQueueFrame.watchListButton, "BOTTOMRIGHT", 0, 0)
+		vQueueFrame.clearNotifyButton:SetText("Clear")
+		vQueueFrame.clearNotifyButton:SetWidth(vQueueFrame.clearNotifyButton:GetTextWidth()+10)
+		vQueueFrame.clearNotifyButton:SetScript("OnClick", function()
+			notifyForDungeon = ""
+			vQueueFrame.watchListButton:SetText("Notify about groups")
+			vQueueFrame.watchListButton:SetWidth(vQueueFrame.watchListButton:GetTextWidth()+30)
+			vQueueFrame.clearNotifyButton:Hide()
+		end)
+		vQueueFrame.clearNotifyButton:Hide()
+
+		vQueueFrame.watchListButton:SetScript("OnEnter", function(this)
+			playerQueueToolTip:SetOwner( this, "ANCHOR_CURSOR" );
+			playerQueueToolTip:AddLine("Don't forget to choose role on the right side", 1, 1, 1, 1)
+			playerQueueToolTip:Show()
+		end)
+
+		vQueueFrame.clearNotifyButton:SetScript("OnEnter", function(this)
+			playerQueueToolTip:SetOwner( this, "ANCHOR_CURSOR" );
+			playerQueueToolTip:AddLine("Clears the search, you will not be notified anymore", 1, 1, 1, 1)
+			playerQueueToolTip:Show()
+		end)
+
+		vQueueFrame.watchListButton:SetScript("OnLeave", function()
+			playerQueueToolTip:Hide()
+		end)
+
+		vQueueFrame.clearNotifyButton:SetScript("OnLeave", function()
+			playerQueueToolTip:Hide()
+		end)
+
+-- Sven Button Ende
+        
 		vQueueFrame.hostlistHostButton = vQueue_newButton(vQueueFrame.hostlistTopSection, 10)
 		vQueueFrame.hostlistHostButton:SetPoint("BOTTOMRIGHT", vQueueFrame.hostlistTopSection, "BOTTOMRIGHT", -3, 5)
 		vQueueFrame.hostlistHostButton:SetText("Start new group")
@@ -1575,6 +1626,22 @@ function vQueue_OnEvent(this, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, a
 								if kCat == 'dm' then
 									if not setContains(whoRequestList, arg2) then addToSet(whoRequestList, arg2) end
 								end
+                                
+                                if string.find(notifyForDungeon,kCat) then
+									if (selectedRole == damageRole ) or (selectedRole == healerRole) or (selectedRole == tankRole) then
+										vQueueFrame.replyFrameTo:SetText(arg2)
+										vQueueFrame.replyFrameMsg:SetText("Lvl " .. tostring(UnitLevel("player")) .. " " .. selectedRole .. " " .. tostring(UnitClass("player")))
+										vQueueFrame.replyFrame:Show()
+										if not (vQueueFrameShown or UnitAffectingCombat("player")) then 
+											vQueueFrame:Show() 
+											vQueueFrame.catList:Show()
+											vQueueFrame.hostlist:Show()
+											vQueueFrameShown = true
+										end
+									end
+									DEFAULT_CHAT_FRAME:AddMessage("Someone is looking for " .. kCat)
+								end
+                                
 								refreshCatList(kCat)
 								break
 							end

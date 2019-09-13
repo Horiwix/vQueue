@@ -1,4 +1,18 @@
-# vQueue - Group finder utility for Vanilla Wow
+# vQueue - Group finder utility for Classic Wow 1.13
+
+vQueue addon updated to work for Classic WoW 1.13 client (forked from original author).
+
+Addon works by reading messages from different channels, parsing `LFG`, `LFM`, etc. messages and grouping them into categories by dungeons/raids for easier reading.
+
+### TODO
+ * Setting to hide channel messages doesn't work
+ * Notify button missing
+ * Creating new group through vQueue doesn't work
+ * Waitlist is broken
+
+---
+
+## Original notes below
 
 ### v1.2
  * rewrote frame creation for groups, categories, and the wait list should be lest wasteful and load quicker

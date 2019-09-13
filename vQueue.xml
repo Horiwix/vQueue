@@ -5,13 +5,13 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 	<Frame name="vQueue">
 		<Scripts>
 			<OnLoad>
-				vQueue_OnLoad();
+				vQueue_OnLoad(self);
 			</OnLoad>
 			<OnEvent>
-				vQueue_OnEvent(event);
+				vQueue_OnEvent(self, event, ...);
 			</OnEvent>
 			<OnUpdate>
-				vQueue_OnUpdate();
+				vQueue_OnUpdate(elapsed);
 			</OnUpdate>
 		</Scripts>
 	<!-- Tags below add a visual element to the frame. -->

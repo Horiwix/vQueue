@@ -21,13 +21,7 @@ local ACELIBRARY_MINOR = "$Revision: 14130 $"
 
 local table_setn
 do
-	local version = GetBuildInfo()
-	if string.find(version, "^2%.") then
-		-- 2.0.0
-		table_setn = function() end
-	else
-		table_setn = table.setn
-	end
+    table_setn = function() end
 end
 
 local string_gfind = string.gmatch or string.gfind

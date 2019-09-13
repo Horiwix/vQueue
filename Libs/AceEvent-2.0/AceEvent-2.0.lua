@@ -924,9 +924,11 @@ function AceEvent:activate(oldLib, oldDeactivate)
 			if self.registry["CHAT_MSG_CHANNEL_NOTICE"] and self.registry["CHAT_MSG_CHANNEL_NOTICE"][self] then
 				self:UnregisterEvent("CHAT_MSG_CHANNEL_NOTICE")
 			end
-			if self.registry["MEETINGSTONE_CHANGED"] and self.registry["MEETINGSTONE_CHANGED"][self] then
+			--[[
+            if self.registry["MEETINGSTONE_CHANGED"] and self.registry["MEETINGSTONE_CHANGED"][self] then
 				self:UnregisterEvent("MEETINGSTONE_CHANGED")
 			end
+            ]]
 			if self.registry["MINIMAP_ZONE_CHANGED"] and self.registry["MINIMAP_ZONE_CHANGED"][self] then
 				self:UnregisterEvent("MINIMAP_ZONE_CHANGED")
 			end
@@ -939,16 +941,18 @@ function AceEvent:activate(oldLib, oldDeactivate)
 			self.playerLogin = true
 			self:ScheduleEvent("AceEvent_FullyInitialized", func, 1)
 		end
-		self:RegisterEvent("MEETINGSTONE_CHANGED", f, true)
+		--self:RegisterEvent("MEETINGSTONE_CHANGED", f, true)
 		self:RegisterEvent("CHAT_MSG_CHANNEL_NOTICE", function()
 			self:ScheduleEvent("AceEvent_FullyInitialized", func, 0.05)
 		end)
-		self:RegisterEvent("LANGUAGE_LIST_CHANGED", function()
+		--[[
+        self:RegisterEvent("LANGUAGE_LIST_CHANGED", function()
 			if self.registry["MEETINGSTONE_CHANGED"] and self.registry["MEETINGSTONE_CHANGED"][self] then
 				self:UnregisterEvent("MEETINGSTONE_CHANGED")
 				self:RegisterEvent("MINIMAP_ZONE_CHANGED", f, true)
 			end
 		end)
+        ]]
 		registeringFromAceEvent = nil
 	end
 

@@ -1,6 +1,6 @@
-## Interface: 11200
-## Title: vQueue
-## Author: Devlix
+## Interface: 11302
+## Title: vQueue Classic
+## Author: Devlix (updates: Horiwix)
 ## Notes: Utility for group finding.
 ## SavedVariables: MinimapPos, vQueueOptions, notCaught
 ## SavedVariablesPerCharacter: selectedRole, isFinding

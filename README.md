@@ -9,6 +9,7 @@ Addon works by reading messages from different channels, parsing `LFG`, `LFM`, e
  * Notify button missing
  * Creating new group through vQueue doesn't work
  * Waitlist is broken
+ * Update ACE libraries to newest version (v3 as of now)
 
 ---
 
